@@ -17,7 +17,7 @@
             {{-- PERHATIAN: Di sini akan pakai logo gambar, bukan teks saja --}}
             <a href="{{ url('/') }}" class="flex items-center">
                 <img src="{{ asset('images/logo-ukm.png') }}" alt="Logo UKM Hebat" class="h-10 w-auto mr-2" style="height: 40px; width: auto;"> {{-- Tambahkan inline style sementara untuk logo --}}
-                <span class="text-2xl font-bold text-gray-900">UKM HEBAT</span> {{-- Opsi teks jika logo belum siap --}}
+                <span class="text-2xl font-bold text-gray-900">Galeri Investasi</span> {{-- Opsi teks jika logo belum siap --}}
             </a>
 
             {{-- Navigasi Utama --}}
