@@ -6,6 +6,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\SeminarController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController; // <-- PASTIKAN BARIS INI ADA (dengan alias)
 
 /*
 |--------------------------------------------------------------------------
@@ -29,15 +30,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard'); // Dashboard default Breeze
     })->name('dashboard');
+
+    // Rute Admin untuk Berita
+   Route::resource('admin/news', AdminNewsController::class)->names('admin.news'); // <-- PASTIKAN INI ADA DI SINI
+
     // Rute Admin lainnya akan ditambahkan di sini nanti
-    // Contoh: Route::resource('admin/news', AdminNewsController::class);
 });
 
 // --- RUTE PUBLIK LAINNYA (Controller akan dibuat nanti) ---
 
 // Rute Berita & Kegiatan
 Route::get('/berita-kegiatan', [NewsController::class, 'index'])->name('news.index');
-Route::get('/berita-kegiatan/{news}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/berita-kegiatan/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
 // Rute Halaman Info UKM
 Route::get('/info/tentang-kami', [InfoController::class, 'about'])->name('info.about');
