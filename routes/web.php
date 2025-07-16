@@ -45,6 +45,14 @@ Route::post('/kontak', [ContactController::class, 'submitContactForm'])->name('c
 Route::get('/seminar/daftar', [SeminarController::class, 'showRegistrationForm'])->name('seminars.register.form');
 Route::post('/seminar/daftar', [SeminarController::class, 'storeRegistration'])->name('seminars.register.store');
 
+// Rute Halaman Info UKM
+Route::get('/info/tentang-kami', [App\Http\Controllers\InfoController::class, 'about'])->name('info.about');
+// Tambahkan rute untuk halaman info lain jika ada, misal:
+// Route::get('/info/visi-misi', [App\Http\Controllers\InfoController::class, 'visionMission'])->name('info.visionMission');
+
+// Rute Kontak
+Route::get('/kontak', [App\Http\Controllers\ContactController::class, 'showContactForm'])->name('contact.show');
+Route::post('/kontak', [App\Http\Controllers\ContactController::class, 'submitContactForm'])->name('contact.submit');
 
 // Rute Autentikasi Laravel Breeze (Login/Register/Dashboard)
 // Ini akan mengamankan dashboard dan rute lainnya yang memerlukan login
