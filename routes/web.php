@@ -19,6 +19,10 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController; // <-- PAS
 |
 */
 
+// Rute Pendaftaran Seminar
+Route::get('/seminar/daftar', [App\Http\Controllers\SeminarController::class, 'showRegistrationForm'])->name('seminars.register.form');
+Route::post('/seminar/daftar', [App\Http\Controllers\SeminarController::class, 'storeRegistration'])->name('seminars.register.store');
+
 // Rute Halaman Beranda (Homepage)
 Route::get('/', function () {
     return view('pages.home');
