@@ -77,10 +77,13 @@
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <a href="{{ route('admin.news.edit', $newsItem->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                <form action="{{ route('admin.news.destroy', $newsItem->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?');">
+                                <form action="{{ route('admin.news.destroy', $newsItem->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
+                                    <button type="submit" class="text-red-600 hover:text-red-900"
+                                         onclick="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
+                                        Hapus
+                                    </button>
                                 </form>
                             </td>
                         </tr>

@@ -44,8 +44,8 @@ class News extends Model
     }
 
     // Route key name for route model binding
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
+  //  public function getRouteKeyName()
+  //  {
+       // return 'slug';
+   // }
 }

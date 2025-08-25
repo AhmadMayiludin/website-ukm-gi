@@ -29,23 +29,44 @@
         <div class="container mx-auto max-w-7xl">
             <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">Berita & Kegiatan Terbaru</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {{-- Placeholder untuk 3 kartu berita --}}
-                @for ($i = 0; $i < 3; $i++)
+                {{-- Ambil 3 berita terbaru dari database untuk ditampilkan di homepage --}}
+                @php
+                    use App\Models\News; // Pastikan model News di-import di sini
+                    use Carbon\Carbon; // Pastikan Carbon di-import di sini
+                    use Illuminate\Support\Str; // Pastikan Str di-import di sini
+
+                    $latestNews = News::whereNotNull('published_at')
+                                    ->where('published_at', '<=', Carbon::now())
+                                    ->orderBy('published_at', 'desc')
+                                    ->limit(3) // Ambil 3 berita terbaru
+                                    ->get();
+                @endphp
+
+                @forelse ($latestNews as $newsItem)
                     <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://via.placeholder.com/400x250?text=News+Image+{{ $i+1 }}" alt="News Image {{ $i+1 }}" class="w-full h-48 object-cover">
+                        @if ($newsItem->image)
+                            <img src="{{ asset('storage/' . $newsItem->image) }}" alt="{{ $newsItem->title }}" class="w-full h-48 object-cover">
+                        @else
+                            <img src="https://via.placeholder.com/400x250?text=No+Image" alt="No Image" class="w-full h-48 object-cover">
+                        @endif
                         <div class="p-6">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Judul Berita atau Kegiatan {{ $i+1 }}</h3>
-                            <p class="text-gray-600 text-sm mb-3">Tanggal: {{ date('d M Y', strtotime('-' . $i . ' days')) }}</p>
-                            <p class="text-gray-700 text-base mb-4 line-clamp-3">
-                                Ringkasan singkat tentang isi berita atau kegiatan ini. Ini adalah placeholder teks untuk menunjukkan bagaimana tampilannya. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2 line-clamp-2">{{ $newsItem->title }}</h3>
+                            <p class="text-gray-600 text-sm mb-3">
+                                <i class="far fa-calendar-alt"></i> {{ $newsItem->published_at ? $newsItem->published_at->format('d M Y') : 'Draft' }}
+                                @if($newsItem->user) | <i class="fas fa-user"></i> {{ $newsItem->user->name }} @endif
                             </p>
-                            <a href="#" class="text-blue-500 hover:text-blue-700 font-semibold flex items-center">
+                            <p class="text-gray-700 text-base mb-4 line-clamp-3">
+                                {{ Str::limit(strip_tags($newsItem->content), 100) }}
+                            </p>
+                            <a href="{{ route('news.show', $newsItem->slug) }}" class="text-blue-500 hover:text-blue-700 font-semibold flex items-center">
                                 Baca Selengkapnya
                                 <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
                         </div>
                     </div>
-                @endfor
+                @empty
+                    <p class="col-span-full text-center text-gray-600">Belum ada berita atau kegiatan yang dipublikasikan.</p>
+                @endforelse
             </div>
             <div class="text-center mt-10">
                 <a href="{{ route('news.index') }}" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300">
@@ -64,7 +85,7 @@
                     UKM Hebat adalah wadah bagi mahasiswa untuk mengembangkan potensi diri, berkolaborasi, dan menciptakan inovasi. Kami berkomitmen untuk membentuk pemimpin dan profesional yang siap menghadapi tantangan masa depan.
                 </p>
                 <p class="text-gray-700 text-lg leading-relaxed mb-6">
-                    Melalui berbagai kegiatan interaktif seperti workshop, seminar, dan proyek kolaboratif, kami berupaya menciptakan lingkungan yang suportif dan inspiratif.
+                    Melalui berbagai kegiatan interaktif seperti workshop, seminar, dan proyek kolaboratif, kami berupaya menciptakan lingkungan belajar yang suportif dan inspiratif.
                 </p>
                 <a href="{{ route('info.about') }}" class="inline-block bg-gray-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-700 transition-colors duration-300">
                     Pelajari Lebih Lanjut

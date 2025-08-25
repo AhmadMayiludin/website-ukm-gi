@@ -32,34 +32,38 @@ class NewsController extends Controller
     /**
      * Simpan berita baru ke database.
      */
-    public function store(Request $request)
-    {
+    /**
+ * Simpan berita baru ke database.
+ */
+public function store(Request $request)
+{
+    try {
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'published_at' => 'nullable|date',
         ]);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            // Simpan gambar di storage/app/public/news_images
-            $imagePath = $request->file('image')->store('public/news_images');
-            // Simpan path yang relatif terhadap public/storage
-            $imagePath = str_replace('public/', '', $imagePath);
+            $imagePath = $request->file('image')->store('news', 'public');
         }
 
         News::create([
             'title' => $request->title,
-            // Slug akan otomatis dibuat di model News (boot() method)
             'content' => $request->content,
             'image' => $imagePath,
-            'user_id' => Auth::id(), // Simpan ID user yang sedang login sebagai penulis
+            'user_id' => Auth::id(),
             'published_at' => $request->published_at,
         ]);
 
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil ditambahkan!');
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Error: ' . $e->getMessage())->withInput();
     }
+}
 
     /**
      * Tampilkan detail berita (opsional, biasanya di sisi publik).
@@ -100,11 +104,11 @@ class NewsController extends Controller
         $imagePath = $news->image; // Pertahankan gambar lama secara default
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
-            if ($news->image && Storage::exists('public/' . $news->image)) {
-                Storage::delete('public/' . $news->image);
+            if ($news->image && Storage::disk('public')->exists($news->image)) {
+                Storage::disk('public')->delete($news->image);
             }
-            $imagePath = $request->file('image')->store('public/news_images');
-            $imagePath = str_replace('public/', '', $imagePath);
+            // Simpan gambar baru dengan method yang konsisten
+            $imagePath = $request->file('image')->store('news', 'public');
         }
 
         $news->update([
@@ -124,11 +128,20 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        // Hapus gambar dari storage jika ada
-        if ($news->image && Storage::exists('public/' . $news->image)) {
-            Storage::delete('public/' . $news->image);
+        try {
+            // Hapus file gambar jika ada
+            if ($news->image && file_exists(public_path('storage/' . $news->image))) {
+                unlink(public_path('storage/' . $news->image));
+            }
+
+            $news->delete();
+
+            return redirect()->route('admin.news.index')
+                ->with('success', 'Berita berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal menghapus berita: ' . $e->getMessage());
         }
-        $news->delete();
-        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil dihapus!');
-    }
+}
+
 }
