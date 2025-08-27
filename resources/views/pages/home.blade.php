@@ -29,15 +29,15 @@
                 {{-- Main Heading with Gradient Text --}}
                 <h1 class="text-6xl md:text-8xl font-black leading-tight mb-6 transform hover:scale-105 transition-all duration-500">
                     <span class="bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-                        Komunitas
+                        UKM
                     </span>
                     <br>
                     <span class="bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
-                        Kreatif
+                        Galeri
                     </span>
                     <br>
                     <span class="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                        Masa Depan
+                        Investasi
                     </span>
                 </h1>
 
@@ -74,15 +74,15 @@
                 {{-- Stats Counter --}}
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
                     <div class="text-center group cursor-pointer">
-                        <div class="text-3xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">500+</div>
+                        <div class="text-3xl font-bold text-yellow-400 group-hover:scale-110 transition-transform">100+</div>
                         <div class="text-sm text-gray-300">Anggota Aktif</div>
                     </div>
                     <div class="text-center group cursor-pointer">
-                        <div class="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform">50+</div>
+                        <div class="text-3xl font-bold text-green-400 group-hover:scale-110 transition-transform">40+</div>
                         <div class="text-sm text-gray-300">Event Tahunan</div>
                     </div>
                     <div class="text-center group cursor-pointer">
-                        <div class="text-3xl font-bold text-blue-400 group-hover:scale-110 transition-transform">100+</div>
+                        <div class="text-3xl font-bold text-blue-400 group-hover:scale-110 transition-transform">50+</div>
                         <div class="text-sm text-gray-300">Proyek Selesai</div>
                     </div>
                     <div class="text-center group cursor-pointer">
@@ -325,12 +325,12 @@
                         <div class="absolute inset-0 bg-black/20"></div>
                         <div class="absolute inset-0 flex items-center justify-center">
                             <div class="text-center">
-                                <svg class="w-24 h-24 text-white/80 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                                </svg>
-                                <p class="text-white/90 text-lg font-semibold">Tim UKM Hebat</p>
-                                <p class="text-white/70">Bersama Menuju Kesuksesan</p>
-                            </div>
+                        {{-- GANTI SVG INI DENGAN LOGO UBP ANDA --}}
+                        <img src="{{ asset('images/about-ukm.png') }}"  alt="Logo UBP" class="w-80 h-80 text-white/80 mx-auto mb-4 object-contain">
+                        {{-- GANTI SVG INI DENGAN LOGO UBP ANDA --}}
+                        <p class="text-white/90 text-lg font-semibold">Tim UKM Hebat</p>
+                        <p class="text-white/70">Bersama Menuju Kesuksesan</p>
+                    </div>
                         </div>
                     </div>
 
